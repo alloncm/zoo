@@ -34,32 +34,32 @@ namespace zoo_project
         public void AddAnimal(Animal a)
         {
             newAnimals.Add(a);
-            if (!tables.Exists(x => x == a.CCategory.ToString()))
+            if (!tables.Exists(x => x == a.category.ToString()))
             {
-                int t = (int)a.CCategory;
-                tables.Insert((int)a.CCategory, a.CCategory.ToString());
+                int t = (int)a.category;
+                tables.Insert((int)a.category, a.category.ToString());
             }
         }
 
         private void LoadAnimal(Animal a)
         {
             loadedAnimals.Add(a);
-            if (!tables.Exists(x => x == a.CCategory.ToString()))
+            if (!tables.Exists(x => x == a.category.ToString()))
             {
-                tables.Insert((int)a.CCategory, a.CCategory.ToString());
+                tables.Insert((int)a.category, a.category.ToString());
             }
         }
         private void InsertToDataBase(Animal a)
         {
-            if (!tables.Exists(x => x == a.CCategory.ToString()))
+            if (!tables.Exists(x => x == a.category.ToString()))
             {
-                tables.Insert((int)a.CCategory, a.CCategory.ToString());
-                string s = "CREATE TABLE " + a.CCategory.ToString() + "(id INT PRIMARY KEY, name TEXT UNIQUE, height INT, weight INT,notes TEXT)";
+                tables.Insert((int)a.category, a.category.ToString());
+                string s = "CREATE TABLE " + a.category.ToString() + "(id INT PRIMARY KEY, name TEXT UNIQUE, height INT, weight INT,notes TEXT)";
                 SQLiteCommand c = new SQLiteCommand(s, dbConnection);
                 c.ExecuteNonQuery();
             }
 
-            string sql = "INSERT INTO " + a.CCategory.ToString() + "(id,name,height,weight,notes) VALUES(" + a.Id + ",'" + a.Name + "'," + a.Height + "," + a.Weight + ",'" + a.SpecailNotes + "');";
+            string sql = "INSERT INTO " + a.category.ToString() + "(id,name,height,weight,notes) VALUES(" + a.Id + ",'" + a.Name + "'," + a.Height + "," + a.Weight + ",'" + a.SpecialNotes + "');";
             SQLiteCommand command = new SQLiteCommand(sql, dbConnection);
             command.ExecuteNonQuery();
         }
@@ -115,14 +115,14 @@ namespace zoo_project
             {
                 for(int i=0;i<loadedAnimals.Count;i++)
                 {
-                    if(tables[index]== loadedAnimals[i].CCategory.ToString())
+                    if(tables[index]== loadedAnimals[i].category.ToString())
                     {
                         System.Console.WriteLine(loadedAnimals[i].ToString());
                     }
                 }
                 for (int i = 0; i < newAnimals.Count; i++)
                 {
-                    if (tables[index] == newAnimals[i].CCategory.ToString())
+                    if (tables[index] == newAnimals[i].category.ToString())
                     {
                         System.Console.WriteLine(newAnimals[i].ToString());
                     }

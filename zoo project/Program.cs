@@ -20,7 +20,7 @@ namespace zoo_project
             bool quit = false;
             do
             {
-                System.Console.WriteLine("'Add' to add animal\n'Print' to print the animals\n'Delete' to remove animal\n'Quit' to save and exit the program");
+                System.Console.WriteLine("\n'Add' to add animal\n'Print' to print the animals\n'Delete' to remove animal\n'Quit' to save and exit the program");
                 string command = System.Console.ReadLine();
                 switch (command)
                 {
@@ -29,7 +29,7 @@ namespace zoo_project
                         break;
                     case "Print":
                         System.Console.WriteLine("enter the animal Category\nfor predator 0\nfor GrassEater 1\nfor bird 2\nfor crawl 3\nfor fish 4\nfor double life 5\nto print all 6");
-                        int c = Convert.ToInt32(System.Console.ReadLine());
+                        int c = GetInt();
                         if (c>=0 && c<6)
                         {
                             db.PrintTable(((Category)c).ToString());
@@ -67,13 +67,13 @@ namespace zoo_project
             System.Console.WriteLine("enter the animal name");
             string name = System.Console.ReadLine();
             System.Console.WriteLine("enter the animal height");
-            int height = Convert.ToInt32(System.Console.ReadLine());
+            int height = GetInt();
             System.Console.WriteLine("enter the animal wieght");
-            int wieght = Convert.ToInt32(System.Console.ReadLine());
+            int wieght = GetInt();
             System.Console.WriteLine("enter any notes on the animal");
             string notes = System.Console.ReadLine();
             System.Console.WriteLine("enter the animal Category\nfor predator 0\nfor GrassEater 1\nfor bird 2\nfor crawl 3\nfor fish 4\nfor double life5");
-            int c = Convert.ToInt32(System.Console.ReadLine());
+            int c = GetInt();
             Animal a = new Animal(name, (Category)c, height, wieght, notes);
             db.AddAnimal(a);
         }
@@ -89,6 +89,19 @@ namespace zoo_project
             {
                 System.Console.WriteLine(name + " does not exist");
             }
+        }
+        public static int GetInt()
+        {
+            int x = 0;
+            try
+            {
+                x = Convert.ToInt32(System.Console.ReadLine());
+            }
+            catch(FormatException)
+            {
+                GetInt();
+            }
+            return x;
         }
     }
 }

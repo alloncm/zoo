@@ -18,73 +18,20 @@ namespace zoo_project
     }
     class Animal
     {
-        private int id;
-        private string name;
-        private Category category;
-        private int height;
-        private int weight;
-        private string specialNotes;
 
         private static int[] nextId = new int [6];
 
-        public int Id
-        {
-            get
-            {
-                return id;
-            }
-        }
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-            set
-            {
-                name = value;
-            }
-        }
-        public int Height
-        {
-            get
-            {
-                return height;
-            }
-            set
-            {
-                height = value;
-            }
-        }
-        public int Weight
-        {
-            get
-            {
-                return weight;
-            }
-            set
-            {
-                weight = value;
-            }
-        }
-        public Category CCategory
-        {
-            get
-            {
-                return category;
-            }
-        }
-        public string SpecailNotes
-        {
-            get
-            {
-                return specialNotes;
-            }
-            set
-            {
-                specialNotes = value;
-            }
-        }
+        public int Id { get; }
+        public string Name { get; set; }
+        
+        public int Height { get; set; }
+
+        public int Weight { get; set; }
+
+        public Category category { get; }
+
+        public string SpecialNotes { get; set; }
+
 
         public int GetNextId()
         {
@@ -100,25 +47,25 @@ namespace zoo_project
        
         public Animal(string n,Category c, int h, int w,string sn)
         {
-            name = n;
+            Name = n;
             category = c;
-            height = h;
-            weight = w;
-            specialNotes = sn;
-            id = GetNextId();
+            Height = h;
+            Weight = w;
+            SpecialNotes = sn;
+            Id = GetNextId();
         }
         public void AddSpecialNotes(string note)
         {
-            specialNotes += '\n' + note;
+            SpecialNotes += '\n' + note;
         }
         public override string ToString()
         {
-            string s = "id: " + id + " ";
-            s += "name: " + name + " ";
+            string s = "id: " + Id + " ";
+            s += "name: " + Name + " ";
             s += "category: " + category.ToString() + " ";
-            s += "height: " + height + " ";
-            s += "weight: " + weight + "\n";
-            s += "Special Notes: \n" + specialNotes;
+            s += "height: " + Height + " ";
+            s += "weight: " + Weight + "\n";
+            s += "Special Notes: " + SpecialNotes;
             return s;
         }
     }
