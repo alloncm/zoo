@@ -20,7 +20,7 @@ namespace zoo_project
             bool quit = false;
             do
             {
-                System.Console.WriteLine("'Add' to add animal\n'Print' to print the animals\n'Quit' to save and exit the program");
+                System.Console.WriteLine("'Add' to add animal\n'Print' to print the animals\n'Delete' to remove animal\n'Quit' to save and exit the program");
                 string command = System.Console.ReadLine();
                 switch (command)
                 {
@@ -38,6 +38,9 @@ namespace zoo_project
                         {
                             db.Print();
                         }
+                        break;
+                    case "Delete":
+                        Delete(db);
                         break;
                     case "Quit":
                         quit = true;
@@ -73,6 +76,19 @@ namespace zoo_project
             int c = Convert.ToInt32(System.Console.ReadLine());
             Animal a = new Animal(name, (Category)c, height, wieght, notes);
             db.AddAnimal(a);
+        }
+        public static void Delete(DataBase db)
+        {
+            System.Console.WriteLine("enter name to delete");
+            string name = System.Console.ReadLine();
+            if(db.Delete(name))
+            {
+                System.Console.WriteLine(name + " deleted succesfully");
+            }
+            else
+            {
+                System.Console.WriteLine(name + " does not exist");
+            }
         }
     }
 }

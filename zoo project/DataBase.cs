@@ -137,8 +137,57 @@ namespace zoo_project
             }
         }
 
-       // public 
+       public bool Delete(string name)
+        {
+            int id = GetId(name);
+            if(id==-1)
+            { 
+                return false;
+            }
+            int c = id % 10;
+            string table = ((Category)c).ToString();
+            for(int i=0;i<newAnimals.Count;i++)
+            {
+                if(newAnimals[i].Id==id)
+                {
+                    System.Console.WriteLine("deleted " + newAnimals[i].ToString() + " from the database");
+                    newAnimals.Remove(newAnimals[i]);
+                    return true;
+                }
+            }
+            for(int i=0;i<loadedAnimals.Count;i++)
+            {
+                if(loadedAnimals[i].Id==id)
+                {
+                    string sql = "DELETE FROM " + table + " WHERE id=" + id + ";";
+                    SQLiteCommand com = new SQLiteCommand(sql, dbConnection);
+                    com.ExecuteNonQuery();
+                    System.Console.WriteLine("deleted " + loadedAnimals[i].ToString() + " from the database");
+                    loadedAnimals.Remove(loadedAnimals[i]);
+                    return true;
+                }
+            }
+            return false;
+        } 
 
+        private int GetId(string name)
+        {
+            for (int i = 0; i < newAnimals.Count; i++)
+            {
+                if(name==newAnimals[i].Name)
+                {
+                    return newAnimals[i].Id;
+                }
+            }
+            for (int i = 0; i < loadedAnimals.Count; i++)
+            {
+                if(name==loadedAnimals[i].Name)
+                {
+                    return loadedAnimals[i].Id;
+                }
+            }
+            return -1;
+        }
         ~DataBase()
         {
             dbConnection.Close();
