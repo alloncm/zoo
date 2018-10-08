@@ -18,10 +18,11 @@ namespace zoo_project
     }
     class Animal
     {
-
         private static int[] nextId = new int [6];
 
+
         public int Id { get; }
+
         public string Name { get; set; }
         
         public int Height { get; set; }
@@ -54,17 +55,19 @@ namespace zoo_project
             SpecialNotes = sn;
             Id = GetNextId();
         }
+
         public void AddSpecialNotes(string note)
         {
             SpecialNotes += '\n' + note;
         }
+
         public override string ToString()
         {
             string s = "id: " + Id + " ";
             s += "name: " + Name + " ";
             s += "category: " + category.ToString() + " ";
             s += "height: " + Height + " ";
-            s += "weight: " + Weight + "\n";
+            s += "weight: " + Weight + " ";
             s += "Special Notes: " + SpecialNotes;
             return s;
         }

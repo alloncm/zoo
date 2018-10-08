@@ -20,14 +20,14 @@ namespace zoo_project
             bool quit = false;
             do
             {
-                System.Console.WriteLine("\n'Add' to add animal\n'Print' to print the animals\n'Delete' to remove animal\n'Quit' to save and exit the program");
+                System.Console.WriteLine("\n'Add' to add animal\n'Print' to print the animals\n'PrintC' to Print Category of animals \n'Update' to update info of animal \n'Delete' to remove animal\n'Quit' to save and exit the program");
                 string command = System.Console.ReadLine();
                 switch (command)
                 {
                     case "Add":
                         Add(db);
                         break;
-                    case "Print":
+                    case "PrintC":
                         System.Console.WriteLine("enter the animal Category\nfor predator 0\nfor GrassEater 1\nfor bird 2\nfor crawl 3\nfor fish 4\nfor double life 5\nto print all 6");
                         int c = GetInt();
                         if (c>=0 && c<6)
@@ -38,6 +38,12 @@ namespace zoo_project
                         {
                             db.Print();
                         }
+                        break;
+                    case "Print":
+                        db.Print();
+                        break;
+                    case "Update":
+                        Update(db);
                         break;
                     case "Delete":
                         Delete(db);
@@ -77,6 +83,7 @@ namespace zoo_project
             Animal a = new Animal(name, (Category)c, height, wieght, notes);
             db.AddAnimal(a);
         }
+
         public static void Delete(DataBase db)
         {
             System.Console.WriteLine("enter name to delete");
@@ -90,6 +97,7 @@ namespace zoo_project
                 System.Console.WriteLine(name + " does not exist");
             }
         }
+
         public static int GetInt()
         {
             int x = 0;
@@ -99,9 +107,73 @@ namespace zoo_project
             }
             catch(FormatException)
             {
+                System.Console.WriteLine("enter valid input");
                 GetInt();
             }
             return x;
+        }
+
+        public static void Update(DataBase db)
+        {
+            System.Console.WriteLine("enter the name of the animal to Update");
+            string name = System.Console.ReadLine();
+            int id = db.GetId(name);
+            while(id==-1)
+            {
+                System.Console.WriteLine("enter valid name");
+                System.Console.WriteLine("enter the name of the animal to Update");
+                name = System.Console.ReadLine();
+                id = db.GetId(name);
+            }
+            System.Console.WriteLine("enter the number of the attribute you would like to change \n-0 name\n-1 height \n-2 weight \n-3 notes\n");
+            int choice = GetInt();
+            Animal a = db.GetAnimal(id);
+            string sql = "UPDATE " + a.category.ToString() + " SET ";
+            bool success = true;
+            switch (choice)
+            {
+                case 0:
+                    System.Console.WriteLine("enter new name");
+                    a.Name = System.Console.ReadLine();
+                    sql += "name=" + a.Name;
+                    break;
+                case 1:
+                    System.Console.WriteLine("enter new height");
+                    a.Height = GetInt();
+                    sql += "height=" + a.Height;
+                    break;
+                case 2:
+                    System.Console.WriteLine("enter new Weight");
+                    a.Weight = GetInt();
+                    sql += "weight=" + a.Weight;
+                    break;
+                case 3:
+                    System.Console.WriteLine("to add to the existing Notes enter 1 to replace enter 0");
+                    int c = GetInt();
+                    if(c==0)
+                    {
+                        a.SpecialNotes = System.Console.ReadLine();
+                    }
+                    else
+                    {
+                        a.SpecialNotes += System.Console.ReadLine();
+                    }
+                    sql += "notes= " + a.SpecialNotes;
+                    break;
+                default:
+                    System.Console.WriteLine("enter valid input next Time");
+                    success = false;
+                    break;
+            }
+            db.Update(id, sql);
+            if(success)
+            {
+                System.Console.WriteLine("animal updated succesfully");
+            }
+            else
+            {
+                System.Console.WriteLine("failed to update");
+            }
         }
     }
 }

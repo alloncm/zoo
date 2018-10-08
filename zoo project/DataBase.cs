@@ -49,6 +49,7 @@ namespace zoo_project
                 tables.Insert((int)a.category, a.category.ToString());
             }
         }
+
         private void InsertToDataBase(Animal a)
         {
             if (!tables.Exists(x => x == a.category.ToString()))
@@ -72,6 +73,7 @@ namespace zoo_project
             }
             System.Console.WriteLine("data saved succesfuly");
         }
+
         public void Load()
         {
             string sql = "";
@@ -108,6 +110,7 @@ namespace zoo_project
             }
             System.Console.WriteLine("data loaded succesfuly");
         }
+
         public void PrintTable(string tn)
         {
             int index = tables.FindIndex(x => x == tn);
@@ -118,6 +121,7 @@ namespace zoo_project
                     if(tables[index]== loadedAnimals[i].category.ToString())
                     {
                         System.Console.WriteLine(loadedAnimals[i].ToString());
+                        System.Console.WriteLine();
                     }
                 }
                 for (int i = 0; i < newAnimals.Count; i++)
@@ -125,10 +129,12 @@ namespace zoo_project
                     if (tables[index] == newAnimals[i].category.ToString())
                     {
                         System.Console.WriteLine(newAnimals[i].ToString());
+                        System.Console.WriteLine();
                     }
                 }
             }
         }
+
         public void Print()
         {
             for(int i=0;i<tables.Count;i++)
@@ -170,7 +176,7 @@ namespace zoo_project
             return false;
         } 
 
-        private int GetId(string name)
+        public int GetId(string name)
         {
             for (int i = 0; i < newAnimals.Count; i++)
             {
@@ -188,6 +194,33 @@ namespace zoo_project
             }
             return -1;
         }
+
+        public void Update(int id,string sql)
+        {
+            sql += " WHERE id=" + id + ";";
+            SQLiteCommand com = new SQLiteCommand(sql,dbConnection );
+            com.ExecuteNonQuery();
+        }
+
+        public Animal GetAnimal(int id)
+        {
+            for (int i = 0; i < newAnimals.Count; i++)
+            {
+                if (newAnimals[i].Id == id)
+                {
+                    return newAnimals[i];
+                }
+            }
+            for (int i = 0; i < loadedAnimals.Count; i++)
+            {
+                if (loadedAnimals[i].Id == id)
+                {
+                    return loadedAnimals[i];
+                }
+            }
+            return null; 
+        }
+
         ~DataBase()
         {
             dbConnection.Close();
